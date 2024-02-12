@@ -1,0 +1,64 @@
+CREATE DATABASE [TesteMK]
+GO
+
+USE [TesteMK]
+
+CREATE TABLE [Cliente](
+	[Codigo] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](100) NOT NULL,
+	[Tipo] [char](1) NOT NULL,
+	[CPF_CNPJ] [varchar](14) NOT NULL,
+	[RG_IE] [varchar](14) NULL,
+	[Data_Cadastro] [date] NOT NULL,
+	[Ativo] [bit] NOT NULL,
+ CONSTRAINT [PK_Cliente] PRIMARY KEY CLUSTERED 
+(
+	[Codigo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [Endereco](
+	[Codigo] [int] IDENTITY(1,1) NOT NULL,
+	[CEP] [varchar](8) NOT NULL,
+	[Logradouro] [varchar](100) NOT NULL,
+	[Numero] [varchar](10) NOT NULL,
+	[Bairro] [varchar](100) NOT NULL,
+	[Cidade] [varchar](100) NOT NULL,
+	[Estado] [varchar](2) NOT NULL,
+	[Pais] [varchar](100) NOT NULL,
+	[CodigoCliente] [int] NOT NULL,
+ CONSTRAINT [PK_Endereco] PRIMARY KEY CLUSTERED 
+(
+	[Codigo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [Endereco]  WITH CHECK ADD  CONSTRAINT [FK_Endereco_Cliente] FOREIGN KEY([CodigoCliente])
+REFERENCES [Cliente] ([Codigo])
+GO
+
+ALTER TABLE [Endereco] CHECK CONSTRAINT [FK_Endereco_Cliente]
+GO
+
+
+CREATE TABLE [Telefone](
+	[Codigo] [int] IDENTITY(1,1) NOT NULL,
+	[DDD] [varchar](2) NOT NULL,
+	[Telefone] [varchar](9) NOT NULL,
+	[CodigoCliente] [int] NOT NULL,
+ CONSTRAINT [PK_Telefone] PRIMARY KEY CLUSTERED 
+(
+	[Codigo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [Telefone]  WITH CHECK ADD  CONSTRAINT [FK_Telefone_Cliente] FOREIGN KEY([CodigoCliente])
+REFERENCES [Cliente] ([Codigo])
+GO
+
+ALTER TABLE [Telefone] CHECK CONSTRAINT [FK_Telefone_Cliente]
+GO
